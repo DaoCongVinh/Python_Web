@@ -1,0 +1,43 @@
+{% extends 'base/base.html' %}
+{% block title %}
+    Fucntions Update Views | {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+{% csrf_token %}
+<form action="" method="post" class="needs-validation" novalidate>
+    {% csrf_token %}
+    <div class="container">
+        <div class="row">
+            <div class="col-6 offset-3">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <!-- nếu dạng check box thì hiển thị -->
+                        {% if field.field.widget.input_type == 'checkbox' %}
+                            <div class="form-group form-check">
+                                {{ field }}        
+                                {{ field.label }}
+                            </div>
+                        {% else %}
+                            <div class="form-group {% if field.errors %} is-invalid {% else %} is-valid {% endif %}">
+                                {{ field.label }}
+                                {{ field }}
+                            </div>
+    
+                        {% endif %}
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <div style="display:block" class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                    <input type="submit" value="Update">
+                </form>
+            </div>
+        </div>
+    </form>
+{% endblock content %}
+
