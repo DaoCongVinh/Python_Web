@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+{% block title %}
+    Class Detail View | {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr class="table-success">
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Weight (kg)</th>
+                            <th scope="col">Length (cm)</th>
+                            <th scope="col">Color</th>
+                            <th scope="col">Vacinated</th>
+                            <th scope="col">Dewormed</th>
+                            <th scope="col">Sterilized</th>
+
+                        </tr>
+            
+                    </thead>
+                        <tbody>
+                                <tr class="table-success">
+                                    <td>{{pet.id}}</td>
+                                    <td>{{pet.name}}</td>
+                                    <td>{{pet.age}}</td>
+                                    <td>{{pet.type}}</td>
+                                    <td>{{pet.weight}}</td>
+                                    <td>{{pet.length}}</td>
+                                    <td><p style="height:20px; width:20px; background-color:{{pet.color}};"></p></td> 
+                                    <td><input type="checkbox" disabled {% if pet.vacinated %} checked {% endif %}></td>
+                                    <td><input type="checkbox" disabled {% if pet.dewormed %} checked {% endif %}></td>
+                                    <td><input type="checkbox" disabled {% if pet.sterilized %} checked {% endif %}></td>
+                                </tr>
+
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+{% endblock content %}
