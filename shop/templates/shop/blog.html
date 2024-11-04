@@ -1,0 +1,42 @@
+{% extends 'shop/base.html' %}
+{% load static%}
+{% block title %}Contact{% endblock %}
+{% block content %}
+<section id="page-header" class="blog-header">
+    <h2>#readmore</h2>
+    <p>Read all case studies about our products!</p>
+</section>
+
+<section id="blog">
+    {% for post in blog_posts %}
+    <div class="blog-box">
+        <div class="blog-img">
+            <img src="{% static post.image %}" alt="">
+        </div>
+        <div class="blog-details">
+            <h4>{{ post.title }}</h4>
+            <p>{{ post.content }}</p>
+            <a href="#">CONTINUE READING</a>
+        </div>
+        <h1>{{ post.date }}</h1>
+    </div>
+    {% endfor %}
+</section>
+
+<section id="pagination" class="section-p1">
+    <a href="#">1</a>
+    <a href="#">2</a>
+    <a href="#"><i class='bx bx-right-arrow-alt'></i></a>
+</section>
+
+<section id="newsletter" class="section-p1 section-m1">
+    <div class="newstext">
+        <h4>Sign Up For Newsletters</h4>
+        <p>Get E-mail updates about our latest shop and <span>special offers.</span></p>
+    </div>
+    <div class="form">
+        <input type="text" placeholder="Your email address">
+        <button class="normal">Sign Up</button>
+    </div>
+</section>
+{% endblock %}

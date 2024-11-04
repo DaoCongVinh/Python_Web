@@ -1,0 +1,41 @@
+{%load static%}
+
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{%static 'css/style.css'%}">
+    </head>
+    <body>
+        <section id="header">
+            <a href="{% url 'home' %}"><img src="{% static 'img/logo.png' %}" class="logo" alt=""></a>
+            <div>
+                <ul id="navbar">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a class="active" href="{% url 'shop' %}">Shop</a></li>
+                    <li><a href="{% url 'blog' %}">Blog</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <li id="lg-bag"><a href="{% url 'cart' %}"><i class='bx bx-shopping-bag'></i></a></li>
+                    <a href="#" id="close"><i class='bx bx-x'></i></a>
+                </ul>
+            </div>
+            <div id="mobile">
+                <a href="{% url 'cart' %}"><i class='bx bx-shopping-bag'></i></a>
+                <i id="bar" class='bx bx-menu'></i>
+            </div>
+        </section>
+        
+        
+        <script src="" async defer></script>
+    </body>
+</html>
