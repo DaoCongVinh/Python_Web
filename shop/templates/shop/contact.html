@@ -38,16 +38,19 @@
     </div>
 </section>
 
+<!-- import form into html   -->
 <section id="form-details">
-    <form action="">
+    <form action="{% url 'saveContact' %}" method="post">
+        {% csrf_token %}
         <span>LEAVE A MESSAGE</span>
         <h2>We love to hear from you</h2>
-        <input type="text" placeholder="Your Name">
-        <input type="text" placeholder="E-mail">
-        <input type="text" placeholder="Subject">
-        <textarea name="" id="" cols="30" rows="10" placeholder="Your Message"></textarea>
-        <button class="normal">Submit</button>
+        {{ cf.username }}
+        {{ cf.email }}
+        {{ cf.subject }}
+        {{ cf.message }}
+        <button type="submit" class="normal">Submit</button>
     </form>
+    
 
     <div class="people">
         <div>

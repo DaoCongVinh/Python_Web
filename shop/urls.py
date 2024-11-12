@@ -9,4 +9,5 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('cart/', views.cart, name='cart'),
     path('product/<int:id>/', views.product_detail, name='product'),
+    path('saveContact/',views.saveContact, name = 'saveContact'),
 ]

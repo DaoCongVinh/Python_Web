@@ -1,5 +1,8 @@
 from django.shortcuts import render
-from .models import Product
+from django.http import HttpResponse
+from .models import Product,ContactForm
+from .forms import Contact_Form
+
 
 def home(request):
     return render(request, 'shop/home.html')
@@ -42,8 +45,27 @@ def blog(request):
 def about(request):
     return render(request, 'shop/about.html')
 
+# get input from forms to save as models 
 def contact(request):
-    return render(request, 'shop/contact.html')
+    cf = Contact_Form()
+    return render(request, 'shop/contact.html' , {'cf':cf})
+
+def saveContact(request):
+    print("Request received at saveContact")  # Kiểm tra xem view có được gọi không
+    if request.method == "POST":
+        cf = Contact_Form(request.POST)
+        if cf.is_valid():
+            saveCF = ContactForm(
+                username=cf.cleaned_data['username'],
+                email=cf.cleaned_data['email'],
+                subject=cf.cleaned_data['subject'],
+                message=cf.cleaned_data['message']
+            )
+            saveCF.save()
+            return HttpResponse("save success")
+    else:
+        return HttpResponse("not POST")
+            
 
 def cart(request):
     return render(request, 'shop/cart.html')
@@ -51,3 +73,4 @@ def cart(request):
 def product_detail(request, id):
     # Your logic to fetch product details using the id
     return render(request, 'shop/product.html', {'id': id})
+

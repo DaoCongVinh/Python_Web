@@ -10,3 +10,13 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+class ContactForm(models.Model):
+    username = models.CharField(max_length = 25)
+    email = models.EmailField()
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+
+    def __str__(self):
+        return self.username
+    
