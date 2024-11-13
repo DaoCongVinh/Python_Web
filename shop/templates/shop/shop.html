@@ -7,12 +7,12 @@
 {% block content %}
 <section id="page-header">
     <h2>#stayhome</h2>
-    <p>save more with coupons & up to 70% off!</p>
+    <p>Tiết kiệm với mã giảm giá lên đến 70% khi đặt hàng tại nhà!!</p>
 </section>
 
 <section id="product1" class="section-p1">
     <div class="pro-container">
-        <p>Number of products: {{ products|length }}</p>
+        <p>Sản phẩm đang bày bán: {{ products|length }}</p>
         {% for product in products %}
         <div class="pro" onclick="window.location.href='{% url 'product_detail' product.id %}';">
             <img class="shirt" src="{% static product.image_url %}" alt="">
