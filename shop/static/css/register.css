@@ -1,0 +1,176 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 20px 0; /* Top và Bottom padding */
+  /* Scrollbar styles... */
+  scrollbar-width: auto; /* Firefox */
+  scrollbar-color: #888 #f1f1f1; /* Firefox */
+}
+
+/* Webkit scrollbar cho toàn bộ trang */
+body::-webkit-scrollbar {
+  width: 16px; /* Tăng chiều rộng của scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu nền của track */
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #888; /* Màu nền của thumb */
+  border-radius: 8px; /* Bo góc cho thumb */
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Màu nền của thumb khi hover */
+}
+
+.form-section {
+  padding: 40px; /* Giảm padding từ 140px xuống 40px */
+  background-color: #fff; /* Thêm màu nền */
+  border-radius: 10px; /* Thêm bo góc */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ */
+  max-width: 700px;
+  margin: 20px auto 60px; /* Top: 20px, Left & Right: auto, Bottom: 60px */
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-section h2 {
+  margin-bottom: 20px; /* Tăng margin từ 15px lên 20px */
+  font-size: 2rem; /* Tăng kích thước font từ 1.8rem lên 2rem */
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+.form-control {
+  margin-bottom: 15px; /* Tăng margin từ 12px lên 15px */
+  border-radius: 5px;
+  padding: 12px; /* Tăng padding từ 10px lên 12px */
+  border: 1px solid #ced4da;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px 20px; /* Tăng padding từ 10px 18px lên 12px 20px */
+  width: 100%;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.social-login {
+  margin-top: 20px; /* Tăng margin từ 15px lên 20px */
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; /* Tăng gap từ 8px lên 10px */
+}
+
+.social-login button {
+  flex: 1;
+  padding: 10px; /* Tăng padding từ 8px lên 10px */
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+  font-size: 16px; /* Tăng kích thước font từ 15px lên 16px */
+}
+
+.social-login button i {
+  margin-right: 8px; /* Tăng margin từ 6px lên 8px */
+  font-size: 18px; /* Tăng kích thước icon từ 16px lên 18px */
+}
+
+.btn-facebook {
+  background-color: #3b5998;
+}
+
+.btn-facebook:hover, .btn-facebook:focus {
+  background-color: #334d84;
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(59, 89, 152, 0.4);
+}
+
+.btn-google {
+  background-color: #db4437;
+}
+
+.btn-google:hover, .btn-google:focus {
+  background-color: #c23321;
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(219, 68, 55, 0.4);
+}
+
+.breadcrumb {
+  background-color: transparent;
+  padding-left: 0;
+  margin-bottom: 15px; /* Giảm margin từ 20px xuống 15px */
+  font-size: 14px;
+}
+
+.breadcrumb-item a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+  color: #6c757d;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.9rem;
+  min-height: 1.2em; /* Đảm bảo không gian được giữ cố định */
+  visibility: hidden; /* Ẩn lỗi nhưng giữ không gian */
+}
+
+.error-message.visible {
+  visibility: visible; /* Hiển thị lỗi */
+}
+
+.success-message {
+  color: #28a745;
+  font-size: 1rem;
+  text-align: center;
+  display: none;
+  margin-bottom: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .social-login {
+      flex-direction: column;
+  }
+  .social-login button {
+      width: 100%;
+  }
+}
