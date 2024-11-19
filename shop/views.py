@@ -74,3 +74,7 @@ def product_detail(request, id):
     # Your logic to fetch product details using the id
     return render(request, 'shop/product.html', {'id': id})
 
+def login(request):
+    return render(request, 'shop/login.html')
+def register(request):
+    return render(request, 'shop/register.html')

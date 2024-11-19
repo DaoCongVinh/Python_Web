@@ -1,0 +1,109 @@
+body {
+	font-family: 'Arial', sans-serif;
+	background-color: #f9f9f9;
+	margin: 0;
+	padding: 20px 0;
+	scrollbar-width: auto;
+	scrollbar-color: #888 #f1f1f1;
+}
+
+.form-section {
+	padding: 40px;
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	max-width: 700px;
+	margin: 20px auto 60px;
+	animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; transform: translateY(-20px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+.form-section h2 {
+	margin-bottom: 20px;
+	font-size: 2rem;
+	font-weight: bold;
+	color: #333;
+	text-align: center;
+}
+
+.btn-primary {
+	width: 100%;
+	border-radius: 5px;
+	padding: 12px;
+	font-size: 16px;
+}
+
+.register-link {
+	display: block;
+	text-align: center;
+	margin-top: 10px;
+	color: #007bff;
+	font-size: 16px;
+	text-decoration: none;
+}
+
+.register-link:hover {
+	text-decoration: underline;
+	color: #0056b3;
+}
+
+.social-login {
+	margin-top: 20px;
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.social-login button {
+	flex: 1;
+	padding: 10px;
+	border: none;
+	border-radius: 5px;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+	cursor: pointer;
+	font-size: 16px;
+}
+
+.social-login button i {
+	margin-right: 8px;
+	font-size: 18px;
+}
+
+.btn-facebook {
+	background-color: #3b5998;
+}
+
+.btn-facebook:hover, .btn-facebook:focus {
+	background-color: #334d84;
+	transform: scale(1.05);
+	box-shadow: 0 6px 20px rgba(59, 89, 152, 0.4);
+}
+
+.btn-google {
+	background-color: #db4437;
+}
+
+.btn-google:hover, .btn-google:focus {
+	background-color: #c23321;
+	transform: scale(1.05);
+	box-shadow: 0 6px 20px rgba(219, 68, 55, 0.4);
+}
+
+.navbar {
+	background-color: #007bff;
+	padding: 10px;
+}
+
+.navbar .btn-back-home {
+	color: #fff;
+	text-decoration: none;
+	margin-right: auto;
+}
