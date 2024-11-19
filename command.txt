@@ -1,1 +1,2 @@
 1) thêm data base tên là contact , lấy dữ liệu từ form để lưu vào contact
+
