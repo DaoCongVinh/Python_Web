@@ -1,111 +1,36 @@
-{%load static%}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Cara{% endblock %}</title>
-    <link rel="icon" type="image/x-icon" href="{% static 'myapp/img/icon1.png' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-    {% block header %}
-    <section id="header">
-        <a href="#"><img src="{% static 'img/logo.png' %}" class="logo" alt=""></a>
-        <div>
-            <ul id="navbar">
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a class="active" href="{% url 'shop' %}">Shop</a></li>
-                <li><a href="{% url 'blog' %}">Blog</a></li>
-                <li><a href="{% url 'about' %}">About</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
-                <li id="lg-bag"><a href="{% url 'cart' %}"><i class='bx bx-shopping-bag'></i></a></li>
-                <a href="#" id="close"><i class='bx bx-x'></i></a>
-            </ul>
-        </div>
-        <div id="mobile">
-            <a href="{% url 'cart' %}"><i class='bx bx-shopping-bag'></i></a>
-            <i id="bar" class='bx bx-menu'></i>
-        </div>
-    </section>
-    {% endblock %}
+{% extends 'shop/base.html' %}
+{% load static %}
 
-    {% block content %}
-    {% endblock %}
-
-    {% block footer %}
-    <footer class="section-p1">
-        <div class="col">
-            <img class="logo" src="{% static 'img/logo.png' %}" alt="">
-            <h4>Contact</h4>
-            <p><strong>Address:</strong> 562 Wellington Road, Street 32, San Francisco</p>
-            <p><strong>Phone:</strong> +01 2222 345 / (+91) 0 123 456 789</p>
-            <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
-            <div class="follow">
-                <h4>Follow us</h4>
-                <div class="icon">
-                    <i class='bx bxl-facebook'></i>
-                    <i class='bx bxl-twitter'></i>
-                    <i class='bx bxl-instagram'></i>
-                    <i class='bx bxl-pinterest-alt'></i>
-                    <i class='bx bxl-youtube'></i>
+{% block content %}
+<section id="product1" class="section-p1">
+    <div class="pro-container">
+        {% if products %}
+            {% for product in products %}
+            <div class="pro">
+                <div class="img-container">
+                    <img src="{{ product.image_url }}" alt="{{ product.name }}">
                 </div>
+                <div class="des">
+                    <span>{{ product.brand }}</span>
+                    <h5>{{ product.name }}</h5>
+                    <div class="star">
+                        {% for i in ""|ljust:product.rating %}
+                            <i class='bx bxs-star'></i>
+                        {% endfor %}
+                    </div>
+                    <h4>₫{{ product.price }}</h4>
+                </div>
+                <a href="#"><i class='bx bx-cart cart'></i></a>
             </div>
-        </div>
-
-        <div class="col">
-            <h4>About</h4>
-            <a href="#">About us</a>
-            <a href="#">Devlivery Information</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms & Conditions</a>
-            <a href="#">Contact Us</a>
-        </div>
-
-        <div class="col">
-            <h4>My Account</h4>
-            <a href="#">Sign In</a>
-            <a href="#">View Cart</a>
-            <a href="#">My Wishlist</a>
-            <a href="#">Track My Order</a>
-            <a href="#">Help</a>
-        </div>
-
-        <div class="col install">
-            <h4>Install App</h4>
-            <p>From App Store or Google Play</p>
-            <div class="row">
-                <img src="{% static 'img/pay/app.jpg' %}" alt="">
-                <img src="{% static 'img/pay/play.jpg' %}" alt="">
-            </div>
-            <p>Secured Payment Gateways</p>
-            <img src="{% static 'img/pay/pay.png' %}" alt="">
-        </div>
-
-        <div class="copyright">
-            <p>© 2023, Sahad cmd - HTML CSS Ecommerce Template</p>
-        </div>
-    </footer>
-
-    <script src="{% static 'js/script.js' %}"></script>
-    <script>
-        var MainImg = document.getElementById('MainImg');
-        var smallImg = document.getElementsByClassName('small-img');
-
-        smallImg[0].onclick = function() {
-            MainImg.src = smallImg[0].src;
-        }
-        smallImg[1].onclick = function() {
-            MainImg.src = smallImg[1].src;
-        }
-        smallImg[2].onclick = function() {
-            MainImg.src = smallImg[2].src;
-        }
-        smallImg[3].onclick = function() {
-            MainImg.src = smallImg[3].src;
-        }
-    </script>
-</body>
-</html>
+            {% endfor %}
+        {% else %}
+            <p>No products available.</p>
+        {% endif %}
+    </div>
+</section>
+<section id="pagination" class="section-p1">
+    <a href="#">1</a>
+    <a href="#">2</a>
+    <a href="#"><i class='bx bx-right-arrow-alt'></i></a>
+</section>
+{% endblock %}

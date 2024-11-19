@@ -7,9 +7,19 @@ from .forms import Contact_Form
 def home(request):
     return render(request, 'shop/home.html')
 
-def shop(request):
-    products = Product.objects.all()  # Fetch all products from the database
-    return render(request, 'shop/shop.html', {'products': products})
+def product_list(request):
+    products = Product.objects.all()
+    context = {
+        'products': products
+    }
+    return render(request, 'shop/product.html', context)
+
+def product_detail(request, product_id):
+    product = Product.objects.get(id=product_id)
+    context = {
+        'product': product
+    }
+    return render(request, 'myapp/product_detail.html', context)
 
 def blog(request):
     blog_posts = [
@@ -69,10 +79,6 @@ def saveContact(request):
 
 def cart(request):
     return render(request, 'shop/cart.html')
-
-def product_detail(request, id):
-    # Your logic to fetch product details using the id
-    return render(request, 'shop/product.html', {'id': id})
 
 def login(request):
     return render(request, 'shop/login.html')
