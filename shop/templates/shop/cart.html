@@ -20,30 +20,22 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td><i class='bx bx-x-circle'></i></td>
-                <td><img src="{% static 'img/products/f1.jpg' %}" alt=""></td>
-                <td>Cartoon Astronaut T-Shirts</td>
-                <td>₹2499</td>
-                <td><input type="number" value="1"></td>
-                <td>₹2499</td>
-            </tr>
-            <tr>
-                <td><i class='bx bx-x-circle'></i></td>
-                <td><img src="{% static 'img/products/f2.jpg' %}" alt=""></td>
-                <td>Cartoon Astronaut T-Shirts</td>
-                <td>₹2499</td>
-                <td><input type="number" value="1"></td>
-                <td>₹2499</td>
-            </tr>
-            <tr>
-                <td><i class='bx bx-x-circle'></i></td>
-                <td><img src="{% static 'img/products/f3.jpg' %}" alt=""></td>
-                <td>Cartoon Astronaut T-Shirts</td>
-                <td>₹2499</td>
-                <td><input type="number" value="1"></td>
-                <td>₹2499</td>
-            </tr>
+            {% if cart and cart.items.all %}
+                {% for item in cart.items.all %}
+                <tr>
+                    <td><a href="#"><i class='bx bx-trash'></i></a></td>
+                    <td><img src="{{ item.product.image_url }}" alt="{{ item.product.name }}"></td>
+                    <td>{{ item.product.name }}</td>
+                    <td>₫{{ item.product.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>₫{{ item.get_total_price }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="6">Your cart is empty.</td>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
 </section>
@@ -62,7 +54,7 @@
         <table>
             <tr>
                 <td>Tổng tiền</td>
-                <td>₹7399</td>
+                {% comment %} <td>Total price goes here</td> {% endcomment %}
             </tr>
             <tr>
                 <td>Phí giao hàng</td>
@@ -70,7 +62,7 @@
             </tr>
             <tr>
                 <td><strong>Thành tiền</strong></td>
-                <td><strong>₹7399</strong></td>
+                {% comment %} <td><strong>Total price after minus the coupon sales goes here</strong></td> {% endcomment %}
             </tr>
         </table>
         <button class="normal">Thanh toán</button>

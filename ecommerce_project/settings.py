@@ -122,7 +122,7 @@ STATIC_URL = '/static/'
 
 # Thêm thư mục tệp tĩnh
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "shop/static"),
 ]
 
 
