@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -140,7 +141,8 @@
                 <div class="text-center">
                     <button class="btn btn-primary" type="submit">ĐĂNG NHẬP</button>
                 </div>
-                <a href="/dang-ky" class="register-link">Chưa có tài khoản? Đăng ký</a>
+                <a href="{% url 'register' %}" class="register-link">Chưa có tài khoản? Đăng ký</a>
+
             </form>
             <div class="social-login">
                 <button class="btn btn-facebook" aria-label="Đăng nhập bằng Facebook">
