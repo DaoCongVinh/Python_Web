@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Product,ContactForm
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import Product,ContactForm,Cart,CartItem
 from .forms import Contact_Form
+import json
 
 
 def home(request):
@@ -78,9 +80,48 @@ def saveContact(request):
             
 
 def cart(request):
-    return render(request, 'shop/cart.html')
+    session_key = request.session.session_key
+    if not session_key:
+        request.session.create()
+        session_key = request.session.session_key
+
+    cart = Cart.objects.filter(session=session_key).first()
+    context = {
+        "cart": cart,
+    }
+    return render(request, "shop/cart.html", context)
 
 def login(request):
     return render(request, 'shop/login.html')
 def register(request):
     return render(request, 'shop/register.html')
+
+def add_to_cart(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        product_id = data.get("product_id")
+
+        try:
+            product = Product.objects.get(id=product_id)
+            session_key = request.session.session_key
+            if not session_key:
+                request.session.create()  # Create a session if it doesn't exist
+                session_key = request.session.session_key
+
+            cart, _ = Cart.objects.get_or_create(session=session_key)
+            cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+            if not created:
+                cart_item.quantity += 1
+                cart_item.save()
+
+            return JsonResponse({
+                "success": True,
+                "product_name": product.name,
+                "quantity": cart_item.quantity,
+                "cart_total": cart.get_cart_total(),
+                "cart_items_count": cart.get_cart_items_count()
+            })
+        except Product.DoesNotExist:
+            return JsonResponse({"success": False, "error": "Product not found"}, status=404)
+
+    return JsonResponse({"success": False, "error": "Invalid request method"}, status=400)
