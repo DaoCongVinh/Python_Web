@@ -6,8 +6,8 @@ from .forms import Contact_Form
 import json
 
 
-def home(request):
-    return render(request, 'shop/home.html')
+def homePage(request):
+    return render(request, 'shop/homePage.html')
 
 def login(request):
     return render(request, 'shop/login.html')
@@ -20,6 +20,17 @@ def product_list(request):
         'products': products
     }
     return render(request, 'shop/product.html', context)
+
+def product_list_home(request):
+    hot_products = Product.objects.filter(status=Product.StatusChoices.HOT)
+    new_products = Product.objects.filter(status=Product.StatusChoices.NEW)
+    normal_products = Product.objects.filter(status=Product.StatusChoices.NORMAL)
+    context = {
+        'hot_products': hot_products,
+        'new_products': new_products,
+        'normal_products': normal_products
+    }
+    return render(request, 'shop/homePage.html', context)
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -123,3 +134,4 @@ def add_to_cart(request):
             return JsonResponse({"success": False, "error": "Product not found"}, status=404)
 
     return JsonResponse({"success": False, "error": "Invalid request method"}, status=400)
+

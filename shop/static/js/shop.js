@@ -110,33 +110,3 @@ function getCookie(name) {
 //         }
 //     }
 // }
-
-// // Initialize the cart UI on page load
-// document.addEventListener('DOMContentLoaded', updateCartUI);
-function addToCart(productId) {
-    const url = "/add_to_cart/";
-    const data = { product_id: productId };
-
-    fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": csrftoken
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error("Failed to add product to cart");
-        }
-    })
-    .then(data => {
-        alert(`Product ${data.product_name} has been added to the cart!`);
-    })
-    .catch(error => {
-        console.error(error);
-        alert("An error occurred while adding the product to the cart.");
-    });
-}
