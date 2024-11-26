@@ -13,7 +13,9 @@
             {% for product in products %}
             <div class="pro">
                 <div class="img-container">
-                    <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                    <a href="{% url 'product_detail' product_id=product.id %}">
+                        <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                    </a>
                 </div>
                 <div class="des">
                     <span>{{ product.brand }}</span>
@@ -41,7 +43,7 @@
     <a href="#"><i class='bx bx-right-arrow-alt'></i></a>
 </section>
 
-<script>
+{% comment %} <script>
     function addToCart(productId) {
         // Define the URL for adding a product to the cart
         const url = "/cart/add/";
@@ -92,7 +94,9 @@
         }
         return cookieValue;
     }
+</script> {% endcomment %}
+
+<script>
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 </script>
-
-
 {% endblock %}
