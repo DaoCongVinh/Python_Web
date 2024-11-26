@@ -78,7 +78,7 @@
     }
 
     // Helper function to get CSRF token for Django
-    function getCookie(name) {
+    {% comment %} function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== "") {
             const cookies = document.cookie.split(";");
@@ -92,7 +92,7 @@
         }
         return cookieValue;
     }
-</script>
+</script> {% endcomment %}
 
 
 {% endblock %}
