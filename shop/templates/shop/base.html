@@ -1,4 +1,4 @@
-{%load static%}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,14 +8,15 @@
     <title>{% block title %}BaRoiBeo{% endblock %}</title>
     <link rel="icon" type="image/x-icon" href="{% static 'img/icon1.png' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-    <link rel="stylesheet" href="{% static 'css/style.css'%}">
-    <link rel="stylesheet" href="{% static 'css/product.css'%}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/product.css' %}">
 </head>
 <body>
     {% include 'shop/header.html' %}
     {% block content %}{% endblock %}
     {% include 'shop/footer.html' %}
     
-    <script type="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/shop.js' %}"></script>
 </body>
 </html>

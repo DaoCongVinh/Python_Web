@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Product,ContactForm,Cart,CartItem
@@ -9,6 +9,11 @@ import json
 def home(request):
     return render(request, 'shop/home.html')
 
+def login(request):
+    return render(request, 'shop/login.html')
+def register(request):
+    return render(request, 'shop/register.html')
+
 def product_list(request):
     products = Product.objects.all()
     context = {
@@ -17,11 +22,8 @@ def product_list(request):
     return render(request, 'shop/product.html', context)
 
 def product_detail(request, product_id):
-    product = Product.objects.get(id=product_id)
-    context = {
-        'product': product
-    }
-    return render(request, 'myapp/product_detail.html', context)
+    product = get_object_or_404(Product, id=product_id)
+    return render(request, 'shop/product_detail.html', {'product': product})
 
 def blog(request):
     blog_posts = [
@@ -91,11 +93,7 @@ def cart(request):
     }
     return render(request, "shop/cart.html", context)
 
-def login(request):
-    return render(request, 'shop/login.html')
-def register(request):
-    return render(request, 'shop/register.html')
-
+@csrf_exempt
 def add_to_cart(request):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -105,7 +103,7 @@ def add_to_cart(request):
             product = Product.objects.get(id=product_id)
             session_key = request.session.session_key
             if not session_key:
-                request.session.create()  # Create a session if it doesn't exist
+                request.session.create()
                 session_key = request.session.session_key
 
             cart, _ = Cart.objects.get_or_create(session=session_key)
