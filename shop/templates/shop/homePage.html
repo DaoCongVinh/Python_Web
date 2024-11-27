@@ -82,150 +82,32 @@
     <h2>Sản Phẩm Mới</h2>
     <p>Bộ Sưu Tập Mẫu Thiết Kế Mùa Hè Mới Nhất</p>
     <div class="pro-container">
-        <div class="pro">
-            <img class="shirt" src="{% static 'img/products/n1.jpg' %}" alt="">
-            <div class="des">
-                <span>adidas</span>
-                <h5>Cartoon Astronaut T-Shirts</h5>
-                <div class="star">
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
+        {% if new_products %}
+            {% for product in new_products %}
+            <div class="pro">
+                <div class="img-container">
+                    <a href="{% url 'product_detail' product_id=product.id %}">
+                        <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                    </a>
                 </div>
-                <h4>₹2999</h4>
-            </div>
-            <button onclick=addToCart({{ product.id }})>
-                <i class='bx bx-cart cart'></i>
-            </button>
-        </div>
-        <div class="pro">
-            <img class="shirt" src="{% static 'img/products/n1.jpg' %}" alt="">
-            <div class="des">
-                <span>adidas</span>
-                <h5>Cartoon Astronaut T-Shirts</h5>
-                <div class="star">
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
+                <div class="des">
+                    <span>{{ product.brand }}</span>
+                    <h5>{{ product.name }}</h5>
+                    <div class="star">
+                        {% for i in ""|ljust:product.rating %}
+                            <i class='bx bxs-star'></i>
+                        {% endfor %}
+                    </div>
+                    <h4>₫{{ product.price }}</h4>
                 </div>
-                <h4>₹2999</h4>
+                <button onclick=addToCart({{ product.id }})>
+                    <i class='bx bx-cart cart'></i>
+                </button>
             </div>
-            <button onclick=addToCart({{ product.id }})>
-                <i class='bx bx-cart cart'></i>
-            </button>
-        </div>
-        <div class="pro">
-            <img class="shirt" src="{% static 'img/products/n1.jpg' %}" alt="">
-            <div class="des">
-                <span>adidas</span>
-                <h5>Cartoon Astronaut T-Shirts</h5>
-                <div class="star">
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                </div>
-                <h4>₹2999</h4>
-            </div>
-            <button onclick=addToCart({{ product.id }})>
-                <i class='bx bx-cart cart'></i>
-            </button>
-        </div>
-        <div class="pro">
-            <img class="shirt" src="{% static 'img/products/n1.jpg' %}" alt="">
-            <div class="des">
-                <span>adidas</span>
-                <h5>Cartoon Astronaut T-Shirts</h5>
-                <div class="star">
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                </div>
-                <h4>₹2999</h4>
-            </div>
-            <button onclick=addToCart({{ product.id }})>
-                <i class='bx bx-cart cart'></i>
-            </button>
-        </div>
-        <div class="pro">
-            <img class="shirt" src="{% static 'img/products/n1.jpg' %}" alt="">
-            <div class="des">
-                <span>adidas</span>
-                <h5>Cartoon Astronaut T-Shirts</h5>
-                <div class="star">
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                </div>
-                <h4>₹2999</h4>
-            </div>
-            <button onclick=addToCart({{ product.id }})>
-                <i class='bx bx-cart cart'></i>
-            </button>
-        </div>
-        <div class="pro">
-            <img class="shirt" src="{% static 'img/products/n1.jpg' %}" alt="">
-            <div class="des">
-                <span>adidas</span>
-                <h5>Cartoon Astronaut T-Shirts</h5>
-                <div class="star">
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                </div>
-                <h4>₹2999</h4>
-            </div>
-            <button onclick=addToCart({{ product.id }})>
-                <i class='bx bx-cart cart'></i>
-            </button>
-        </div>
-        <div class="pro">
-            <img class="shirt" src="{% static 'img/products/n1.jpg' %}" alt="">
-            <div class="des">
-                <span>adidas</span>
-                <h5>Cartoon Astronaut T-Shirts</h5>
-                <div class="star">
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                </div>
-                <h4>₹2999</h4>
-            </div>
-            <button onclick=addToCart({{ product.id }})>
-                <i class='bx bx-cart cart'></i>
-            </button>
-        </div>
-        <div class="pro">
-            <img class="shirt" src="{% static 'img/products/n1.jpg' %}" alt="">
-            <div class="des">
-                <span>adidas</span>
-                <h5>Cartoon Astronaut T-Shirts</h5>
-                <div class="star">
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                    <i class='bx bxs-star'></i>
-                </div>
-                <h4>₹2999</h4>
-            </div>
-            <button onclick=addToCart({{ product.id }})>
-                <i class='bx bx-cart cart'></i>
-            </button>
-        </div>
+            {% endfor %}
+        {% else %}
+            <p>No products available.</p>
+        {% endif %}
         
         <!-- Repeat similar structure for other products -->
     </div>

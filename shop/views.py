@@ -135,3 +135,41 @@ def add_to_cart(request):
 
     return JsonResponse({"success": False, "error": "Invalid request method"}, status=400)
 
+def delete_cart_item(request, item_id):
+    cart_item = get_object_or_404(CartItem, id=item_id)
+    cart_item.delete()
+    return JsonResponse({"success": True, "message": "Item removed from cart."})
+
+def update_cart_item_quantity(request, item_id):
+    if request.method == "POST":
+        try:
+            # Get the quantity from the request
+            quantity = int(request.POST.get("quantity", 1))
+
+            # Fetch the cart item
+            cart_item = CartItem.objects.get(id=item_id)
+
+            # Update the quantity
+            cart_item.quantity = quantity
+            cart_item.save()
+
+            # Calculate the new total for this item
+            item_total = cart_item.quantity * cart_item.product.price
+
+            # Return a success response
+            return JsonResponse({
+                "success": True,
+                "message": "Quantity updated successfully.",
+                "item_total": item_total,  # Total for this item
+            })
+        except Exception as e:
+            return JsonResponse({
+                "success": False,
+                "message": str(e),
+            }, status=400)
+
+    return JsonResponse({
+        "success": False,
+        "message": "Invalid request method."
+    }, status=405)
+

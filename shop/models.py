@@ -51,6 +51,9 @@ class CartItem(models.Model):
         """Calculate the total price for this cart item."""
         return self.quantity * self.product.price
     
+    def get_cart_total(self):
+        return sum(item.get_total_price() for item in self.items.all())
+    
 class ContactForm(models.Model):
     username = models.CharField(max_length = 25)
     email = models.EmailField()
