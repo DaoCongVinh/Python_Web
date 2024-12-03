@@ -136,9 +136,16 @@ def add_to_cart(request):
     return JsonResponse({"success": False, "error": "Invalid request method"}, status=400)
 
 def delete_cart_item(request, item_id):
-    cart_item = get_object_or_404(CartItem, id=item_id)
-    cart_item.delete()
-    return JsonResponse({"success": True, "message": "Item removed from cart."})
+    if request.method == "GET" and request.headers.get("X-Requested-With") == "XMLHttpRequest":
+        try:
+            cart_item = get_object_or_404(CartItem, id=item_id)
+            cart = cart_item.cart
+            cart_item.delete()
+            cart_total = cart.get_cart_total()
+            return JsonResponse({"success": True, "cart_total": cart_total})
+        except Exception as e:
+            return JsonResponse({"success": False, "message": str(e)})
+    return JsonResponse({"success": False, "message": "Invalid request"})
 
 def update_cart_item_quantity(request, item_id):
     if request.method == "POST":
@@ -173,3 +180,15 @@ def update_cart_item_quantity(request, item_id):
         "message": "Invalid request method."
     }, status=405)
 
+@csrf_exempt
+def get_cart_total(request):
+    try:
+        session_key = request.session.session_key
+        if not session_key:
+            return JsonResponse({"success": False, "message": "Cart not found."}, status=404)
+
+        cart = Cart.objects.get(session=session_key)
+        cart_total = cart.get_cart_total()
+        return JsonResponse({"success": True, "cart_total": cart_total})
+    except Cart.DoesNotExist:
+        return JsonResponse({"success": False, "message": "Cart not found."}, status=404)
