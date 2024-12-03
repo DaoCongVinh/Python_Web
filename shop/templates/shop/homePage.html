@@ -1,0 +1,115 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section id="main">
+    <h4>Đổi trả nếu hàng không đúng mô tả</h4>
+    <h2>Ưu đãi siêu giá trị</h2>
+    <h1>Cho tất cả sản phẩm</h1>
+    <p>tiết kiệm hơn với mã giảm giá lên đến 70%!</p>
+    <button class="btn">Mua Ngay</button>
+</section>
+
+<section id="feature" class="section-p1">
+    <div class="fe-box">
+        <img src="{% static 'img/features/f1.png' %}" alt="">
+        <h6>Miễn phí vận chuyển</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'img/features/f2.png' %}" alt="">
+        <h6>Đặt hàng trực tuyến</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'img/features/f3.png' %}" alt="">
+        <h6>Tiết kiệm chi phí</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'img/features/f4.png' %}" alt="">
+        <h6>Khuyến mãi ngập tràn</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'img/features/f5.png' %}" alt="">
+        <h6>Bán hàng thân thiện</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'img/features/f6.png' %}" alt="">
+        <h6>Hỗ trợ mọi lúc</h6>
+    </div>
+</section>
+
+<section id="product1" class="section-p1">
+    <h2>Sản Phẩm Hot</h2>
+    <p>Bộ Sưu Tập Mẫu Thiết Kế Mùa Hè Mới Nhất</p>
+    <div class="pro-container">
+        {% if hot_products %}
+            {% for product in hot_products %}
+            <div class="pro">
+                <div class="img-container">
+                    <a href="{% url 'product_detail' product_id=product.id %}">
+                        <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                    </a>
+                </div>
+                <div class="des">
+                    <span>{{ product.brand }}</span>
+                    <h5>{{ product.name }}</h5>
+                    <div class="star">
+                        {% for i in ""|ljust:product.rating %}
+                            <i class='bx bxs-star'></i>
+                        {% endfor %}
+                    </div>
+                    <h4>₫{{ product.price }}</h4>
+                </div>
+                <button onclick=addToCart({{ product.id }})>
+                    <i class='bx bx-cart cart'></i>
+                </button>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No products available.</p>
+        {% endif %}
+        <!-- Repeat similar structure for other products -->
+    </div>
+</section>
+
+<section id="banner" class="section-m1">
+    <h4>Khuyến mãi nóng</h4>
+    <h2>Giảm giá lên đến <span>70%</span> - Tất cả sản phẩm áo phông & phụ kiện</h2>
+    <button class="normal">Tìm hiểu thêm</button>
+</section>
+
+<section id="product1" class="section-p1">
+    <h2>Sản Phẩm Mới</h2>
+    <p>Bộ Sưu Tập Mẫu Thiết Kế Mùa Hè Mới Nhất</p>
+    <div class="pro-container">
+        {% if new_products %}
+            {% for product in new_products %}
+            <div class="pro">
+                <div class="img-container">
+                    <a href="{% url 'product_detail' product_id=product.id %}">
+                        <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                    </a>
+                </div>
+                <div class="des">
+                    <span>{{ product.brand }}</span>
+                    <h5>{{ product.name }}</h5>
+                    <div class="star">
+                        {% for i in ""|ljust:product.rating %}
+                            <i class='bx bxs-star'></i>
+                        {% endfor %}
+                    </div>
+                    <h4>₫{{ product.price }}</h4>
+                </div>
+                <button onclick=addToCart({{ product.id }})>
+                    <i class='bx bx-cart cart'></i>
+                </button>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No products available.</p>
+        {% endif %}
+        
+        <!-- Repeat similar structure for other products -->
+    </div>
+</section>
+{% endblock %}

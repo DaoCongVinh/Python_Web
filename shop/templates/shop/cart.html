@@ -23,12 +23,16 @@
             {% if cart and cart.items.all %}
                 {% for item in cart.items.all %}
                 <tr>
-                    <td><a href="#"><i class='bx bx-trash'></i></a></td>
+                    <td>
+                        <button class="delete-btn" data-item-id="{{ item.id }}"><i class='bx bx-trash'></i></button>
+                    </td>
                     <td><img src="{{ item.product.image_url }}" alt="{{ item.product.name }}"></td>
                     <td>{{ item.product.name }}</td>
-                    <td>₫{{ item.product.price }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>₫{{ item.get_total_price }}</td>
+                    <td class="price-cell" data-price="{{ item.product.price }}">₫{{ item.product.price }}</td>
+                    <td>
+                        <input type="number" class="quantity-input" data-item-id="{{ item.id }}" value={{ item.quantity }} min=1>
+                    </td>
+                    <td class="total-cell">₫{{ item.get_total_price }}</td>
                 </tr>
                 {% endfor %}
             {% else %}
@@ -54,7 +58,7 @@
         <table>
             <tr>
                 <td>Tổng tiền</td>
-                {% comment %} <td>Total price goes here</td> {% endcomment %}
+                <td>{{ cart.get_cart_total }}₫</td>
             </tr>
             <tr>
                 <td>Phí giao hàng</td>
@@ -62,7 +66,7 @@
             </tr>
             <tr>
                 <td><strong>Thành tiền</strong></td>
-                {% comment %} <td><strong>Total price after minus the coupon sales goes here</strong></td> {% endcomment %}
+                <td><strong>{{ cart.get_cart_total }}₫</strong></td>
             </tr>
         </table>
         <button class="normal">Thanh toán</button>

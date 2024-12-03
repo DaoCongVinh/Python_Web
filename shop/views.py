@@ -6,8 +6,8 @@ from .forms import Contact_Form
 import json
 
 
-def home(request):
-    return render(request, 'shop/home.html')
+def homePage(request):
+    return render(request, 'shop/homePage.html')
 
 def login(request):
     return render(request, 'shop/login.html')
@@ -20,6 +20,17 @@ def product_list(request):
         'products': products
     }
     return render(request, 'shop/product.html', context)
+
+def product_list_home(request):
+    hot_products = Product.objects.filter(status=Product.StatusChoices.HOT)
+    new_products = Product.objects.filter(status=Product.StatusChoices.NEW)
+    normal_products = Product.objects.filter(status=Product.StatusChoices.NORMAL)
+    context = {
+        'hot_products': hot_products,
+        'new_products': new_products,
+        'normal_products': normal_products
+    }
+    return render(request, 'shop/homePage.html', context)
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -123,3 +134,61 @@ def add_to_cart(request):
             return JsonResponse({"success": False, "error": "Product not found"}, status=404)
 
     return JsonResponse({"success": False, "error": "Invalid request method"}, status=400)
+
+def delete_cart_item(request, item_id):
+    if request.method == "GET" and request.headers.get("X-Requested-With") == "XMLHttpRequest":
+        try:
+            cart_item = get_object_or_404(CartItem, id=item_id)
+            cart = cart_item.cart
+            cart_item.delete()
+            cart_total = cart.get_cart_total()
+            return JsonResponse({"success": True, "cart_total": cart_total})
+        except Exception as e:
+            return JsonResponse({"success": False, "message": str(e)})
+    return JsonResponse({"success": False, "message": "Invalid request"})
+
+def update_cart_item_quantity(request, item_id):
+    if request.method == "POST":
+        try:
+            # Get the quantity from the request
+            quantity = int(request.POST.get("quantity", 1))
+
+            # Fetch the cart item
+            cart_item = CartItem.objects.get(id=item_id)
+
+            # Update the quantity
+            cart_item.quantity = quantity
+            cart_item.save()
+
+            # Calculate the new total for this item
+            item_total = cart_item.quantity * cart_item.product.price
+
+            # Return a success response
+            return JsonResponse({
+                "success": True,
+                "message": "Quantity updated successfully.",
+                "item_total": item_total,  # Total for this item
+            })
+        except Exception as e:
+            return JsonResponse({
+                "success": False,
+                "message": str(e),
+            }, status=400)
+
+    return JsonResponse({
+        "success": False,
+        "message": "Invalid request method."
+    }, status=405)
+
+@csrf_exempt
+def get_cart_total(request):
+    try:
+        session_key = request.session.session_key
+        if not session_key:
+            return JsonResponse({"success": False, "message": "Cart not found."}, status=404)
+
+        cart = Cart.objects.get(session=session_key)
+        cart_total = cart.get_cart_total()
+        return JsonResponse({"success": True, "cart_total": cart_total})
+    except Cart.DoesNotExist:
+        return JsonResponse({"success": False, "message": "Cart not found."}, status=404)

@@ -233,7 +233,8 @@ body {
 
 #product1 .pro-container{
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
+  column-gap: 20px;
   padding-top: 20px;
   flex-wrap: wrap;
 }
@@ -287,6 +288,25 @@ body {
   font-size: 12px;
   font-weight: 700;
   color: #088178;
+}
+
+#product1 .pro button {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50px;
+  background-color: #e8f6ea;
+  color: #088178;
+  border: 1px solid #cce7d0;
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+}
+
+#product1 .pro button:hover {
+  cursor: pointer;
+  background-color: #065a54;
+  color: #fff;
 }
 
 #banner {
