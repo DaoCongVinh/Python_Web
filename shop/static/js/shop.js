@@ -1,11 +1,19 @@
  // Function to add a product to the cart
  function addToCart(productId) {
+    const sizeElement = document.querySelector("select");
+    let selectedSize = sizeElement ? sizeElement.value : null;
+
+    if (!selectedSize || selectedSize === "Select Size") {
+        selectedSize = "M"; // Default size
+    }
+
     // Define the URL for adding a product to the cart
     const url = "/cart/add/";
 
     // Prepare the data payload
     const data = {
-        product_id: productId
+        product_id: productId,
+        size: selectedSize
     };
 
     // Make an AJAX POST request
@@ -26,7 +34,7 @@
     })
     .then(data => {
         // Notify the user of success
-        alert(`Product ${data.product_name} has been added to the cart!`);
+        alert(`Product ${data.product_name} (Size: ${data.size}) has been added to the cart!`);
     })
     .catch(error => {
         console.error(error);
