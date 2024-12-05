@@ -18,6 +18,14 @@
     <body>
         <section id="header">
             <a href="{% url 'home' %}"><img src="{% static 'img/logo.png' %}" class="logo" alt=""></a>
+            <div class="search-bar">
+                <form method="GET" action="{% url 'product_search' %}">
+                    <div class="search-container">
+                        <i class='bx bx-search'></i>
+                        <input class="search-input" type="search" name="search">
+                    </div>
+                </form>
+            </div>
             <div>
                 <ul id="navbar">
                     <li><a href="{% url 'home' %}">Home</a></li>

@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
+from django.db.models import Q
 from .models import Product,ContactForm,Cart,CartItem
 from .forms import Contact_Form
 import json
@@ -192,3 +194,19 @@ def get_cart_total(request):
         return JsonResponse({"success": True, "cart_total": cart_total})
     except Cart.DoesNotExist:
         return JsonResponse({"success": False, "message": "Cart not found."}, status=404)
+    
+def product_search(request):
+    query = request.GET.get('search', '')
+    page = request.GET.get('page', 1)
+    products_list = Product.objects.filter(
+        Q(name__icontains=query) | Q(brand__icontains=query)
+    ) if query else Product.objects.all()
+    
+    paginator = Paginator(products_list, 20)  # 20 products per page
+    products = paginator.get_page(page)
+    
+    context = {
+        'products': products,
+        'query': query,
+    }
+    return render(request, 'shop/product.html', context)
