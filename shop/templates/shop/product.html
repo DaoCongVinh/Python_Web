@@ -7,6 +7,10 @@
     <p>Tiết kiệm với mã giảm giá lên đến 70% khi đặt hàng tại nhà!!</p>
 </section>
 
+{% if query %}
+    <p class="search-result">Showing results for: <strong>{{ query }}</strong></p>
+{% endif %}
+
 <section id="product1" class="section-p1">
     <div class="pro-container">
         {% if products %}
@@ -33,14 +37,23 @@
             </div>
             {% endfor %}
         {% else %}
-            <p>No products available.</p>
+            <p>No products found for "<strong>{{ query }}</strong>". Please try a different search term!</p>
         {% endif %}
     </div>
 </section>
 <section id="pagination" class="section-p1">
-    <a href="#">1</a>
-    <a href="#">2</a>
-    <a href="#"><i class='bx bx-right-arrow-alt'></i></a>
+    {% if products.has_previous %}
+        <a href="?page={{ products.previous_page_number }}&search={{ query }}">«</a>
+    {% endif %}
+    {% for page_num in products.paginator.page_range %}
+        <a href="?page={{ page_num }}&search={{ query }}"
+           class="{% if products.number == page_num %}active{% endif %}">
+           {{ page_num }}
+        </a>
+    {% endfor %}
+    {% if products.has_next %}
+        <a href="?page={{ products.next_page_number }}&search={{ query }}">»</a>
+    {% endif %}
 </section>
 
 <script>

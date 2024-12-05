@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
+from django.db.models import Q
 from .models import Product,ContactForm,Cart,CartItem
 from .forms import Contact_Form
 import json
@@ -109,23 +111,39 @@ def add_to_cart(request):
     if request.method == "POST":
         data = json.loads(request.body)
         product_id = data.get("product_id")
+        size = data.get("size")
+
+        if not size:
+            return JsonResponse({"success": False, "error": "Size is required"}, status=400)
 
         try:
-            product = Product.objects.get(id=product_id)
+            # Get the product
+            product = get_object_or_404(Product, id=product_id)
+
+            # Ensure the session exists
             session_key = request.session.session_key
             if not session_key:
                 request.session.create()
                 session_key = request.session.session_key
 
+            # Get or create the cart for the session
             cart, _ = Cart.objects.get_or_create(session=session_key)
-            cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+
+            # Check if a CartItem with the same product and size exists
+            cart_item, created = CartItem.objects.get_or_create(
+                cart=cart, product=product, size=size, defaults={"quantity": 1}
+            )
+
             if not created:
+                # If the item exists, increment the quantity
                 cart_item.quantity += 1
                 cart_item.save()
 
+            # Return a success response
             return JsonResponse({
                 "success": True,
                 "product_name": product.name,
+                "size": size,
                 "quantity": cart_item.quantity,
                 "cart_total": cart.get_cart_total(),
                 "cart_items_count": cart.get_cart_items_count()
@@ -192,3 +210,19 @@ def get_cart_total(request):
         return JsonResponse({"success": True, "cart_total": cart_total})
     except Cart.DoesNotExist:
         return JsonResponse({"success": False, "message": "Cart not found."}, status=404)
+    
+def product_search(request):
+    query = request.GET.get('search', '')
+    page = request.GET.get('page', 1)
+    products_list = Product.objects.filter(
+        Q(name__icontains=query) | Q(brand__icontains=query)
+    ) if query else Product.objects.all()
+    
+    paginator = Paginator(products_list, 20)  # 20 products per page
+    products = paginator.get_page(page)
+    
+    context = {
+        'products': products,
+        'query': query,
+    }
+    return render(request, 'shop/product.html', context)

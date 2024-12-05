@@ -121,6 +121,10 @@
     color: #fff;
 }
 
+#prodetails .single-pro-details > p {
+    line-height: 24px;
+}
+
 .pro-container {
     display: flex;
     justify-content: space-between;

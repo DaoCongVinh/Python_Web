@@ -1,6 +1,8 @@
 const bar = document.getElementById('bar');
-// const close = document.getElementById('close');
 const nav = document.getElementById('navbar');
+const navLinks = nav.querySelectorAll('#header #navbar a');
+const currentPath = window.location.pathname;
+
 
 if(bar) {
   bar.addEventListener('click', () => {
@@ -8,8 +10,11 @@ if(bar) {
   })
 };
 
-// if(close) {
-//   close.addEventListener('click', () => {
-//     nav.classList.remove('active');
-//   })
-// };
+navLinks.forEach(link => {
+  if (link.getAttribute('href') === currentPath) {
+      link.classList.add('active'); // Add active class to the matching link
+  } else {
+      link.classList.remove('active'); // Remove active class from others
+  }
+});
+
