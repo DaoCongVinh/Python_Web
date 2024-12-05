@@ -39,7 +39,7 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
-    """Represents a single product in the cart."""
+    """Từng sản phẩm trong giỏ hàng"""
     cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)

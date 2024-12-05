@@ -129,13 +129,14 @@ body {
   left: 20px;
 }
 
+#navbar #lg-bag a i,
+#navbar #user-icon a i {
+  font-size: 24px;
+}
+
 #mobile {
   display: none;
   align-items: center;
-}
-
-#close {
-  display: none;
 }
 
 /* Main part of page */
@@ -484,6 +485,7 @@ body {
 }
 
 footer {
+  background-color: #E3E6F3;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
