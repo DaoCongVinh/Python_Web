@@ -69,4 +69,3 @@ class ContactForm(models.Model):
         return self.username
     
 
-    

@@ -4,17 +4,37 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import Product,ContactForm,Cart,CartItem
-from .forms import Contact_Form
+from .forms import Contact_Form , RegisterForm
 import json
-
+from django.views import View
 
 def homePage(request):
     return render(request, 'shop/homePage.html')
 
 def login(request):
     return render(request, 'shop/login.html')
-def register(request):
-    return render(request, 'shop/register.html')
+
+class register(View): 
+    def get(self, request):
+        
+        rF = RegisterForm()
+        return render(request, 'shop/register.html', {'rF': rF})
+
+    def post(self, request):
+        rF = RegisterForm(request.POST) 
+
+        if rF.is_valid():
+            username = rF.cleaned_data['username']
+            email = rF.cleaned_data['email']
+            password = rF.cleaned_data['password1']
+
+
+            user = User.objects.create_user(username=username, email=email, password=password)
+
+            return redirect('home')  
+
+
+        return render(request, 'shop/register.html', {'rF': rF})
 
 def product_list(request):
     products = Product.objects.all()
