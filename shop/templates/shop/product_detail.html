@@ -30,6 +30,62 @@
     </div>
 </section>
 
+{% comment %} Related products to show other products that are similar to the current product, each carousel contains 3 products {% endcomment %}
+
+<section id="related-products-carousel" class="section-p2">
+    <h4 style="margin-left: 100px;">Related Products</h4>
+    <div class="carousel-container">
+        <button class="carousel-control prev" onclick="moveCarousel(-1)">&#10094;</button>
+        <div class="carousel">
+            {% if related_products %}
+                {% for product in related_products %}
+                    {% if forloop.counter0|divisibleby:3 %}
+                        <div class="carousel-item">
+                    {% endif %}
+                    <div class="pro">
+                        <div class="img-container">
+                            <a href="{% url 'product_detail' product_id=product.id %}">
+                                <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                            </a>
+                        </div>
+                        <div class="des">
+                            <span>{{ product.brand }}</span>
+                            <h5>{{ product.name }}</h5>
+                            <div class="star">
+                                {% for i in ""|ljust:product.rating %}
+                                    <i class='bx bxs-star'></i>
+                                {% endfor %}
+                            </div>
+                            <h4>${{ product.price }}</h4>
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:3 or forloop.last %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No products</p>
+            {% endif %}
+        </div>
+        <button class="carousel-control next" onclick="moveCarousel(1)">&#10095;</button>
+    </div>
+</section>
+
+<script>
+    let currentSlide = 0;
+
+    function moveCarousel(direction) {
+        const carousel = document.querySelector('.carousel');
+        const items = document.querySelectorAll('.carousel-item');
+        const totalItems = items.length;
+
+        currentSlide = (currentSlide + direction + totalItems) % totalItems;
+
+        const offset = -currentSlide * 100;
+        carousel.style.transform = `translateX(${offset}%)`;
+    }
+</script>
+
 <script>
     function addToCart(productId) {
         // Define the URL for adding a product to the cart
