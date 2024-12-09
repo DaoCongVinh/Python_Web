@@ -27,3 +27,7 @@ class RegisterForm(forms.Form):
             raise forms.ValidationError("Mật khẩu và xác nhận mật khẩu không khớp.")
 
         return cleaned_data
+    
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=30,required=True)
+    password1 = forms.CharField(widget=forms.PasswordInput, required=True)

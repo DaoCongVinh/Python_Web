@@ -24,8 +24,8 @@
                 {% csrf_token %}
                 <div class="mb-3">
                     <!-- Sử dụng {{ rF.username }} để Django tự động hiển thị giá trị của trường -->
-                    <input type="text" placeholder="Tên *" class="form-control custom-class" name="username" value="{{ rF.username.value|default:'' }}">
-                    
+                    <p><input class="form-control" id="id_username" type="text" name="username" maxlength="100" placeholder="Tên tài khoản *" required></p>
+                
                     <!-- Hiển thị lỗi nếu có -->
                     {% if rF.username.errors %}
                         <div class="error-message">{{ rF.username.errors }}</div>
@@ -34,21 +34,21 @@
                 
                 
                 <div class="mb-3">
-                    <input class="form-control" id="email" placeholder="Email *" required type="text" aria-label="Email" value="{{ rF.email.value|default:'' }}"/>
+                    <p><input class="form-control" id="id_email" type="text" name="email" maxlength="100" placeholder="Email *" required></p>
                     {% if rF.email.errors %}
                         <div class="error-message">{{ rF.email.errors }}</div>
                     {% endif %}
                 </div>
                 
                 <div class="mb-3">
-                    <input class="form-control" id="password" placeholder="Mật khẩu *" required type="password" aria-label="Mật khẩu" value="{{ rF.password1.value|default:'' }}"/>
+                    <p><input class="form-control" id="id_password1" type="text" name="password1" maxlength="100" placeholder="Mật khẩu *" required></p>
                     {% if rF.password1.errors %}
                         <div class="error-message">{{ rF.password1.errors }}</div>
                     {% endif %}
                 </div>
                 
                 <div class="mb-3">
-                    <input class="form-control" id="password" placeholder="Nhập Lại Mật khẩu *" required type="password" aria-label="Mật khẩu" value="{{ rF.password2.value|default:'' }}"/>
+                    <p><input class="form-control" id="id_password2" type="text" name="password2" maxlength="100" placeholder="Nhập lại mật khẩu *" required></p>
                     {% if rF.password2.errors %}
                         <div class="error-message">{{ rF.password2.errors }}</div>
                     {% endif %}
