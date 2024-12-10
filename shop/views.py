@@ -74,7 +74,13 @@ def product_list_home(request):
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    return render(request, 'shop/product_detail.html', {'product': product})
+    related_products = Product.objects.all().filter(brand=product.brand).exclude(id=product.id)
+    context = {
+        'product': product,
+        'related_products': related_products
+    }
+    return render(request, 'shop/product_detail.html', context)
+
 
 def blog(request):
     blog_posts = [
