@@ -4,17 +4,55 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import Product,ContactForm,Cart,CartItem
-from .forms import Contact_Form
+from .forms import Contact_Form , RegisterForm , LoginForm
 import json
-
+from django.views import View
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect 
+from django.contrib.auth import authenticate,login
 
 def homePage(request):
     return render(request, 'shop/homePage.html')
 
-def login(request):
-    return render(request, 'shop/login.html')
-def register(request):
-    return render(request, 'shop/register.html')
+class login(View):
+
+    def get(self, request):
+        lF = LoginForm()  
+        return render(request, 'shop/login.html', {'lF': lF})
+
+    def post(self, request):
+        lF = LoginForm(request.POST)  
+        if lF.is_valid():  
+            username = lF.cleaned_data['username']
+            password = lF.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)  
+
+            if user is not None:
+                login(request, user) 
+                return HttpResponse('success') 
+        
+        
+        return HttpResponse('thất bại')
+    
+class register(View): #use class base view 
+    def get(self, request):
+        
+        rF = RegisterForm() 
+        return render(request, 'shop/register.html', {'rF': rF})
+
+    def post(self, request):
+        rF = RegisterForm(request.POST) 
+
+        if rF.is_valid():
+            username = rF.cleaned_data['username']
+            email = rF.cleaned_data['email']
+            password = rF.cleaned_data['password1']
+
+            user = User.objects.create_user(username=username, email=email, password=password)
+            user.save()
+            return redirect('home')  
+
+        return render(request, 'shop/register.html', {'rF': rF})
 
 def product_list(request):
     products = Product.objects.all()

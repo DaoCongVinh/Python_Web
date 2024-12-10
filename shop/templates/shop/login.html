@@ -131,19 +131,20 @@
         <div class="form-section">
             <h2>ĐĂNG NHẬP</h2>
             <p class="text-center">Vui lòng đăng nhập để truy cập tài khoản của bạn</p>
-            <form id="loginForm">
+            <form id="loginForm" method="POST">
+                {% csrf_token %}
                 <div class="mb-3">
-                    <input class="form-control" id="email" placeholder="Email *" required type="email" aria-label="Email"/>
+                    <p><input class="form-control" id="id_username" type="text" name="username" maxlength="100" placeholder="Tên tài khoản *" required></p>
                 </div>
                 <div class="mb-3">
-                    <input class="form-control" id="password" placeholder="Mật khẩu *" required type="password" aria-label="Mật khẩu"/>
+                    <input class="form-control" id="id_password" placeholder="Mật khẩu *" name="password" type="password" aria-label="Mật khẩu" required />
                 </div>
                 <div class="text-center">
                     <button class="btn btn-primary" type="submit">ĐĂNG NHẬP</button>
                 </div>
-                <a href="{% url 'register' %}" class="register-link">Chưa có tài khoản? Đăng ký</a>
-
+                
             </form>
+            <a href="{% url 'register' %}" class="register-link">Chưa có tài khoản? Đăng ký</a>
             <div class="social-login">
                 <button class="btn btn-facebook" aria-label="Đăng nhập bằng Facebook">
                     <i class="fab fa-facebook-f"></i> Facebook

@@ -20,23 +20,40 @@
             <h2>ĐĂNG KÝ TÀI KHOẢN</h2>
             <p class="text-center">Nếu chưa có tài khoản vui lòng đăng ký tại đây</p>
             <div class="success-message" id="successMessage">Đăng ký thành công!</div>
-            <form id="registrationForm" novalidate>
+            <form method="POST" id="registrationForm" novalidate>
+                {% csrf_token %}
                 <div class="mb-3">
-                    <input class="form-control" id="lastName" placeholder="Tên *" required type="text" aria-label="Tên"/>
-                    <div class="error-message" id="lastNameError">Vui lòng nhập tên của bạn.</div>
+                    <!-- Sử dụng {{ rF.username }} để Django tự động hiển thị giá trị của trường -->
+                    <p><input class="form-control" id="id_username" type="text" name="username" maxlength="100" placeholder="Tên tài khoản *" required></p>
+                
+                    <!-- Hiển thị lỗi nếu có -->
+                    {% if rF.username.errors %}
+                        <div class="error-message">{{ rF.username.errors }}</div>
+                    {% endif %}
                 </div>
+                
+                
                 <div class="mb-3">
-                    <input class="form-control" id="phone" placeholder="Số điện thoại *" required type="tel" aria-label="Số điện thoại"/>
-                    <div class="error-message" id="phoneError">Vui lòng nhập số điện thoại hợp lệ.</div>
+                    <p><input class="form-control" id="id_email" type="text" name="email" maxlength="100" placeholder="Email *" required></p>
+                    {% if rF.email.errors %}
+                        <div class="error-message">{{ rF.email.errors }}</div>
+                    {% endif %}
                 </div>
+                
                 <div class="mb-3">
-                    <input class="form-control" id="password" placeholder="Mật khẩu *" required type="password" aria-label="Mật khẩu"/>
-                    <div class="error-message" id="passwordError">Vui lòng nhập mật khẩu (ít nhất 6 ký tự).</div>
+                    <p><input class="form-control" id="id_password1" type="text" name="password1" maxlength="100" placeholder="Mật khẩu *" required></p>
+                    {% if rF.password1.errors %}
+                        <div class="error-message">{{ rF.password1.errors }}</div>
+                    {% endif %}
                 </div>
+                
                 <div class="mb-3">
-                    <input class="form-control" id="password" placeholder="Nhập Lại Mật khẩu *" required type="password" aria-label="Mật khẩu"/>
-                    <div class="error-message" id="passwordError">Vui lòng nhập mật khẩu (ít nhất 6 ký tự).</div>
+                    <p><input class="form-control" id="id_password2" type="text" name="password2" maxlength="100" placeholder="Nhập lại mật khẩu *" required></p>
+                    {% if rF.password2.errors %}
+                        <div class="error-message">{{ rF.password2.errors }}</div>
+                    {% endif %}
                 </div>
+                
                 <div class="text-center">
                     <button class="btn btn-primary" type="submit">ĐĂNG KÝ</button>
                 </div>

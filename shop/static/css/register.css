@@ -174,3 +174,7 @@ body::-webkit-scrollbar-thumb:hover {
       width: 100%;
   }
 }
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+}
