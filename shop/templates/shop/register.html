@@ -41,14 +41,14 @@
                 </div>
                 
                 <div class="mb-3">
-                    <p><input class="form-control" id="id_password1" type="text" name="password1" maxlength="100" placeholder="Mật khẩu *" required></p>
+                    <p><input class="form-control" id="id_password1" type="password" name="password1" maxlength="100" placeholder="Mật khẩu *" required></p>
                     {% if rF.password1.errors %}
                         <div class="error-message">{{ rF.password1.errors }}</div>
                     {% endif %}
                 </div>
                 
                 <div class="mb-3">
-                    <p><input class="form-control" id="id_password2" type="text" name="password2" maxlength="100" placeholder="Nhập lại mật khẩu *" required></p>
+                    <p><input class="form-control" id="id_password2" type="password" name="password2" maxlength="100" placeholder="Nhập lại mật khẩu *" required></p>
                     {% if rF.password2.errors %}
                         <div class="error-message">{{ rF.password2.errors }}</div>
                     {% endif %}
