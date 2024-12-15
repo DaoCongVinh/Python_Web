@@ -30,11 +30,11 @@
                     <td><img src="{{ item.product.image_url }}" alt="{{ item.product.name }}"></td>
                     <td>{{ item.product.name }}</td>
                     <td>{{ item.size }}</td>
-                    <td class="price-cell" data-price="{{ item.product.price }}">₫{{ item.product.price }}</td>
+                    <td class="price-cell" data-price="{{ item.product.price }}">₫{{ item.product.formatted_price }}</td>
                     <td>
                         <input type="number" class="quantity-input" data-item-id="{{ item.id }}" value={{ item.quantity }} min=1>
                     </td>
-                    <td class="total-cell">₫{{ item.get_total_price }}</td>
+                    <td class="total-cell">₫{{ item.formatted_total_price }}</td>
                 </tr>
                 {% endfor %}
             {% else %}
@@ -60,7 +60,7 @@
         <table>
             <tr>
                 <td>Tổng tiền</td>
-                <td>{{ cart.get_cart_total }}₫</td>
+                <td>{{ cart.formatted_total_price }}₫</td>
             </tr>
             <tr>
                 <td>Phí giao hàng</td>
@@ -68,7 +68,7 @@
             </tr>
             <tr>
                 <td><strong>Thành tiền</strong></td>
-                <td><strong>{{ cart.get_cart_total }}₫</strong></td>
+                <td><strong>{{ cart.formatted_total_price }}₫</strong></td>
             </tr>
         </table>
         <button class="normal">Thanh toán</button>
