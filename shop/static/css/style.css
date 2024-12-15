@@ -1,10 +1,10 @@
 
-@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Spartan", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 html {
@@ -649,11 +649,11 @@ footer .copyright {
 
 #prodetails .single-pro-details {
   width: 50%;
-  padding-top: 30px;
+  padding-top: 10px;
 }
 
 #prodetails .single-pro-details h4{
-  padding: 40px 0 20px 0;
+  padding: 10px 0 20px 0;
 }
 
 #prodetails .single-pro-details h2{
