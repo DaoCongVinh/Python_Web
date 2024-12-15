@@ -37,6 +37,9 @@ class Cart(models.Model):
     def get_cart_total(self):
         """Calculate the total price of items in the cart."""
         return sum(item.get_total_price() for item in self.items.all())
+    
+    def formatted_total_price(self):
+        return f"{self.get_cart_total():,.0f}"
 
     def get_cart_items_count(self):
         """Calculate the total number of items in the cart."""
@@ -59,6 +62,9 @@ class CartItem(models.Model):
     def get_total_price(self):
         """Calculate the total price for this cart item."""
         return self.quantity * self.product.price
+    
+    def formatted_total_price(self):
+        return f"{self.get_total_price():,.0f}"
     
     def get_cart_total(self):
         return sum(item.get_total_price() for item in self.items.all())
