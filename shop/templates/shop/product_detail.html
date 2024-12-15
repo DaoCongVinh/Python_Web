@@ -8,16 +8,16 @@
     </div>
 
     <div class="single-pro-details">
-        <h6>{{ product.brand }}</h6>
         <h4>{{ product.name }}</h4>
-        <h2>${{ product.price }}</h2>
+        <h6>{{ product.brand }}</h6>
+        <h2>₫{{ product.price }}</h2>
         <p>{{ product.description|linebreaksbr }}</p>
         <select>
             <option>Select Size</option>
+            <option>M</option>
+            <option>L</option>
             <option>XL</option>
             <option>XXL</option>
-            <option>Small</option>
-            <option>Large</option>
         </select>
         <input type="number" value="1" min="1">
         <button class="normal" onclick=addToCart({{ product.id }})>Add To Cart</button>
