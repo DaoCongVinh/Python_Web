@@ -10,29 +10,27 @@ from django.views import View
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect 
 from django.contrib.auth import authenticate,login
+from django.contrib import messages
 
 def homePage(request):
     return render(request, 'shop/homePage.html')
 
-class login(View):
-
+class loginView(View):
     def get(self, request):
-        lF = LoginForm()  
+        lF = LoginForm
         return render(request, 'shop/login.html', {'lF': lF})
-
     def post(self, request):
-        lF = LoginForm(request.POST)  
-        if lF.is_valid():  
-            username = lF.cleaned_data['username']
-            password = lF.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)  
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate (request, username=username, password=password)
 
-            if user is not None:
-                login(request, user) 
-                return HttpResponse('success') 
-        
-        
-        return HttpResponse('thất bại')
+        if user is not None:
+            login(request, user)
+            messages.success(request, "Đăng ký thành công!")
+            return redirect('home')  
+        else:
+            messages.error(request, "Đăng nhập thất bại. Vui lòng kiểm tra thông tin.")
+            return render(request, 'shop/login.html', {'lF': lF})
     
 class register(View): #use class base view 
     def get(self, request):
@@ -50,8 +48,9 @@ class register(View): #use class base view
 
             user = User.objects.create_user(username=username, email=email, password=password)
             user.save()
-            return redirect('home')  
-
+            messages.success(request, "Đăng ký thành công!")
+            return redirect('login')  
+        messages.error(request, "Đăng ký thất bại. Vui lòng kiểm tra thông tin.")
         return render(request, 'shop/register.html', {'rF': rF})
 
 def product_list(request):
@@ -159,7 +158,6 @@ def add_to_cart(request):
 
         if not size:
             return JsonResponse({"success": False, "error": "Size is required"}, status=400)
-
         try:
             # Get the product
             product = get_object_or_404(Product, id=product_id)
