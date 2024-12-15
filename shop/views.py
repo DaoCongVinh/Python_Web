@@ -256,9 +256,15 @@ def get_cart_total(request):
 def product_search(request):
     query = request.GET.get('search', '')
     page = request.GET.get('page', 1)
-    products_list = Product.objects.filter(
-        Q(name__icontains=query) | Q(brand__icontains=query)
-    ) if query else Product.objects.all()
+    
+    if query :
+        pattern = '.*' + '.*'.join(query.split()) + '.*'
+        
+        products_list = Product.objects.filter(
+            Q(name__iregex=pattern) | Q(brand__iregex=pattern)
+        )
+    else :
+        products_list = Product.objects.all()
     
     paginator = Paginator(products_list, 20)  # 20 products per page
     products = paginator.get_page(page)
