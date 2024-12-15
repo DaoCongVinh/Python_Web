@@ -1,0 +1,141 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block content %}
+<section id="prodetails" class="section-p1">
+    <div class="single-pro-image">
+        <img src="{{ product.image_url }}" width="100%" id="MainImg" alt="{{ product.name }}">
+    </div>
+
+    <div class="single-pro-details">
+        <h6>{{ product.brand }}</h6>
+        <h4>{{ product.name }}</h4>
+        <h2>${{ product.price }}</h2>
+        <p>{{ product.description|linebreaksbr }}</p>
+        <select>
+            <option>Select Size</option>
+            <option>XL</option>
+            <option>XXL</option>
+            <option>Small</option>
+            <option>Large</option>
+        </select>
+        <input type="number" value="1" min="1">
+        <button class="normal" onclick=addToCart({{ product.id }})>Add To Cart</button>
+        <h4>Product Details</h4>
+        <div class="star">
+            {% for i in ""|ljust:product.rating %}
+                <i class='bx bxs-star'></i>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% comment %} Related products to show other products that are similar to the current product, each carousel contains 3 products {% endcomment %}
+
+<section id="related-products-carousel" class="section-p2">
+    <h4 style="margin-left: 100px;">Related Products</h4>
+    <div class="carousel-container">
+        <button class="carousel-control prev" onclick="moveCarousel(-1)">&#10094;</button>
+        <div class="carousel">
+            {% if related_products %}
+                {% for product in related_products %}
+                    {% if forloop.counter0|divisibleby:3 %}
+                        <div class="carousel-item">
+                    {% endif %}
+                    <div class="pro">
+                        <div class="img-container">
+                            <a href="{% url 'product_detail' product_id=product.id %}">
+                                <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                            </a>
+                        </div>
+                        <div class="des">
+                            <span>{{ product.brand }}</span>
+                            <h5>{{ product.name }}</h5>
+                            <div class="star">
+                                {% for i in ""|ljust:product.rating %}
+                                    <i class='bx bxs-star'></i>
+                                {% endfor %}
+                            </div>
+                            <h4>${{ product.price }}</h4>
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:3 or forloop.last %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No products</p>
+            {% endif %}
+        </div>
+        <button class="carousel-control next" onclick="moveCarousel(1)">&#10095;</button>
+    </div>
+</section>
+
+<script>
+    let currentSlide = 0;
+
+    function moveCarousel(direction) {
+        const carousel = document.querySelector('.carousel');
+        const items = document.querySelectorAll('.carousel-item');
+        const totalItems = items.length;
+
+        currentSlide = (currentSlide + direction + totalItems) % totalItems;
+
+        const offset = -currentSlide * 100;
+        carousel.style.transform = `translateX(${offset}%)`;
+    }
+</script>
+
+<script>
+    function addToCart(productId) {
+        // Define the URL for adding a product to the cart
+        const url = "/cart/add/";
+
+        // Prepare the data payload
+        const data = {
+            product_id: productId
+        };
+
+        // Make an AJAX POST request
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken") // Django's CSRF token
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("Failed to add product to cart");
+            }
+        })
+        .then(data => {
+            // Notify the user of success
+            alert(`Product ${data.product_name} has been added to the cart!`);
+        })
+        .catch(error => {
+            console.error(error);
+            alert("An error occurred while adding the product to the cart.");
+        });
+    }
+
+    // Helper function to get CSRF token for Django
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+{% endblock %}
