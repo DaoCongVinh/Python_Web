@@ -73,7 +73,7 @@ def product_list_home(request):
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    related_products = Product.objects.all().filter(brand=product.brand).exclude(id=product.id)
+    related_products = Product.objects.filter(name__icontains = product.name.split()[0]).exclude(id=product.id)
     context = {
         'product': product,
         'related_products': related_products
