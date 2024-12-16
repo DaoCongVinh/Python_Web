@@ -31,3 +31,14 @@ class RegisterForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=30,required=True)
     password1 = forms.CharField(widget=forms.PasswordInput, required=True)
+    
+class PaymentForm(forms.Form):
+    name = forms.CharField(max_length=100, label="Tên")
+    phone = forms.CharField(max_length=15, label="Điện thoại liên lạc")
+    address = forms.CharField(max_length=255, label="Địa chỉ")
+    note = forms.CharField(widget=forms.Textarea, required=False, label="Ghi chú")
+    payment = forms.ChoiceField(
+        choices=[('COD', 'Thanh toán khi nhận hàng (COD)'), ('MoMo', 'Thanh toán bằng ví MoMo')],
+        label="Phương thức thanh toán",
+        widget=forms.RadioSelect
+    )

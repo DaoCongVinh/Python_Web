@@ -1,5 +1,6 @@
 # models.py
 from django.db import models
+from django.contrib.auth.models import User
 
 class Product(models.Model):
     class StatusChoices(models.TextChoices):
@@ -78,4 +79,19 @@ class ContactForm(models.Model):
     def __str__(self):
         return self.username
     
+class Order(models.Model):
+    PAYMENT_CHOICES = [
+        ('COD', 'Thanh toán khi nhận hàng (COD)'),
+        ('MoMo', 'Thanh toán bằng ví MoMo'),
+    ]
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')  # Link to the user
+    name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=15)
+    address = models.TextField()
+    note = models.TextField(blank=True, null=True)
+    payment_method = models.CharField(max_length=10, choices=PAYMENT_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"Order by {self.user.username} - {self.payment_method}"

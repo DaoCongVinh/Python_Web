@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import Product,ContactForm,Cart,CartItem
-from .forms import Contact_Form , RegisterForm , LoginForm
+from .forms import Contact_Form , RegisterForm , LoginForm,PaymentForm
 import json
 from django.views import View
 from django.contrib.auth.models import User
@@ -274,3 +274,25 @@ def product_search(request):
         'query': query,
     }
     return render(request, 'shop/product.html', context)
+
+def payment(request):
+    cart = Cart.objects.get(user=request.user)
+    
+    if request.method == 'POST':
+        form = PaymentForm(request.POST)
+        if form.is_valid():
+            # Handle order processing
+            name = form.cleaned_data['name']
+            phone = form.cleaned_data['phone']
+            address = form.cleaned_data['address']
+            note = form.cleaned_data.get('note', '')
+            payment_method = form.cleaned_data['payment']
+            
+            # Here you can create an Order instance
+            # Order.objects.create(...)
+
+            return HttpResponse("Đặt hàng thành công!")  # Replace with success page
+    else:
+        form = PaymentForm()
+
+    return render(request, 'shop/cart.html', {'cart': cart, 'form': form})
