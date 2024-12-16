@@ -64,36 +64,39 @@
             </tr>
         </table>
     </div>
-
-    <div id="payment-form" class="section-p1">
-        <h3>THÔNG TIN NHẬN HÀNG</h3>
-        <form method="post" action="{% url 'order_payment' %}">
-            {% csrf_token %}
-            <label for="name">Tên</label>
-            <input type="text" id="name" name="name" placeholder="Tên người nhận" required>
-            
-            <label for="phone">Điện thoại liên lạc</label>
-            <input type="text" id="phone" name="phone" placeholder="Số điện thoại" required>
-            
-            <label for="address">Nhận hàng tại nhà/công ty/bưu điện</label>
-            <input type="text" id="address" name="address" placeholder="Địa chỉ nhận hàng" required>
-    
-            <label for="note">Ghi chú</label>
-            <textarea id="note" name="note" placeholder=""></textarea>
-            
-            <label for="cod">
-                <input type="radio" id="cod" name="payment" value="COD" checked>
-                Thanh toán khi nhận hàng (COD)
-            </label>
-    
-            <label for="momo">
-                <input type="radio" id="momo" name="payment" value="MoMo">
-                Thanh toán bằng ví MoMo
-            </label>
-            
-            <button type="submit" id="payment-button" class="normal">ĐẶT HÀNG: GIAO HÀNG VÀ THU TIỀN TẬN NƠI</button>
-        </form>
-    </div>
+    {% if user.is_authenticated %}
+        <div id="payment-form" class="section-p1">
+            <h3>THÔNG TIN NHẬN HÀNG</h3>
+            <form method="post" action="{% url 'order_payment' %}">
+                {% csrf_token %}
+                <label for="name">Tên</label>
+                <input type="text" id="name" name="name" placeholder="Tên người nhận" required>
+                
+                <label for="phone">Điện thoại liên lạc</label>
+                <input type="text" id="phone" name="phone" placeholder="Số điện thoại" required>
+                
+                <label for="address">Nhận hàng tại nhà/công ty/bưu điện</label>
+                <input type="text" id="address" name="address" placeholder="Địa chỉ nhận hàng" required>
+        
+                <label for="note">Ghi chú</label>
+                <textarea id="note" name="note" placeholder=""></textarea>
+                
+                <label for="cod">
+                    <input type="radio" id="cod" name="payment" value="COD" checked>
+                    Thanh toán khi nhận hàng (COD)
+                </label>
+        
+                <label for="momo">
+                    <input type="radio" id="momo" name="payment" value="MoMo">
+                    Thanh toán bằng ví MoMo
+                </label>
+                
+                <button type="submit" id="payment-button" class="normal">ĐẶT HÀNG: GIAO HÀNG VÀ THU TIỀN TẬN NƠI</button>
+            </form>
+        </div>
+    {% else %}
+        <p>Bạn cần <a href="{% url 'login' %}">đăng nhập</a> để đặt hàng.</p>
+    {% endif %}
 
     {% comment %} <div id="coupon">
         <h3>Mã giảm giá</h3>
@@ -129,5 +132,6 @@
     });
 </script>
 
+<script>
 
 {%endblock%}

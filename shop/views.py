@@ -3,13 +3,14 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django.db.models import Q
-from .models import Product,ContactForm,Cart,CartItem
+from .models import Product,ContactForm,Cart,CartItem,Order,OrderItem
 from .forms import Contact_Form , RegisterForm , LoginForm,PaymentForm
 import json
 from django.views import View
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect 
 from django.contrib.auth import authenticate,login
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 def homePage(request):
@@ -275,24 +276,72 @@ def product_search(request):
     }
     return render(request, 'shop/product.html', context)
 
-def payment(request):
-    cart = Cart.objects.get(user=request.user)
+def get_or_create_cart(request):
+    """
+    Retrieve or create a cart for the current user or session.
+    """
+    if request.user.is_authenticated:
+        # lấy giỏ hàng của user
+        cart = Cart.objects.get_or_create(user=request.user)
+    else:
+        # nếu ko đăng nhập thì lấy bằng session
+        session_id = request.session.session_key
+        if not session_id:
+            request.session.create() 
+            session_id = request.session.session_key
+        cart, created = Cart.objects.get_or_create(session=session_id)
     
+    return cart
+
+ # Hiện form thông tin thanh toán 
+def payment(request):
+    cart = get_or_create_cart(request)
+
+    if request.method == 'POST':
+        return place_order(request)
+
+    form = PaymentForm()
+    return render(request, 'shop/cart.html', {'cart': cart, 'form': form})
+
+# Xử lý đặt hàng
+def place_order(request):
+    cart = get_or_create_cart(request)
+
     if request.method == 'POST':
         form = PaymentForm(request.POST)
         if form.is_valid():
-            # Handle order processing
+            # Lấy thông tin từ form
             name = form.cleaned_data['name']
             phone = form.cleaned_data['phone']
             address = form.cleaned_data['address']
             note = form.cleaned_data.get('note', '')
             payment_method = form.cleaned_data['payment']
-            
-            # Here you can create an Order instance
-            # Order.objects.create(...)
 
-            return HttpResponse("Đặt hàng thành công!")  # Replace with success page
-    else:
-        form = PaymentForm()
+            # Tạo record Order
+            order = Order.objects.create(
+                user=request.user if request.user.is_authenticated else None,
+                name=name,
+                phone=phone,
+                address=address,
+                note=note,
+                payment_method=payment_method
+            )
 
-    return render(request, 'shop/cart.html', {'cart': cart, 'form': form})
+            # Lấy sản phẩm từ giỏ hàng để tạo record OrderItem (đang chưa tạo đc)
+            for item in cart.items.all():
+                OrderItem.objects.create(
+                    order=order,
+                    product=item.product,
+                    size=item.size,
+                    quantity=item.quantity,
+                    price=item.product.price * item.quantity
+                )
+
+            # Xóa hết sản phẩm sau khi đặt hàng thành công (cũng chưa đc)
+            cart.items.all().delete()
+
+            return JsonResponse({'success': True, 'message': 'Order placed successfully!'})
+
+        return JsonResponse({'success': False, 'errors': form.errors})
+
+    return JsonResponse({'success': False, 'message': 'Invalid request'})

@@ -29,9 +29,10 @@ class Product(models.Model):
 
 class Cart(models.Model):
     """Represents a shopping cart linked to a session."""
-    session = models.CharField(max_length=255, unique=True)
+    session = models.CharField(max_length=255, unique=True, blank=True, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name='cart')
     created_at = models.DateTimeField(auto_now_add=True)
-
+    
     def __str__(self):
         return f"Cart {self.session}"
 
@@ -95,3 +96,14 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order by {self.user.username} - {self.payment_method}"
+    
+class OrderItem(models.Model):
+    """Represents an individual item in an order."""
+    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    size = models.CharField(max_length=50, blank=True, null=True)
+    quantity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=20, decimal_places=0)
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.name} in Order {self.order.id}"
