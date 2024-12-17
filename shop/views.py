@@ -328,17 +328,17 @@ def place_order(request):
             )
 
             # Lấy sản phẩm từ giỏ hàng để tạo record OrderItem (đang chưa tạo đc)
-            for item in cart.items.all():
-                OrderItem.objects.create(
-                    order=order,
-                    product=item.product,
-                    size=item.size,
-                    quantity=item.quantity,
-                    price=item.product.price * item.quantity
-                )
+            # for item in cart.items.all():
+            #     OrderItem.objects.create(
+            #         order=order,
+            #         product=item.product,
+            #         size=item.size,
+            #         quantity=item.quantity,
+            #         price=item.product.price * item.quantity
+            #     )
 
             # Xóa hết sản phẩm sau khi đặt hàng thành công (cũng chưa đc)
-            cart.items.all().delete()
+            # cart.items.all().delete()
 
             return JsonResponse({'success': True, 'message': 'Order placed successfully!'})
 
